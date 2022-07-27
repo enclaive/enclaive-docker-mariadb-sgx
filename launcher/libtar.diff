@@ -1,0 +1,28 @@
+diff --git a/lib/extract.c b/lib/extract.c
+index 9fc6ad5..c3d6a14 100644
+--- a/lib/extract.c
++++ b/lib/extract.c
+@@ -46,6 +46,7 @@ tar_set_file_perms(TAR *t, char *realname)
+ 
+ 	/* change owner/group */
+ 	if (geteuid() == 0)
++#undef HAVE_LCHOWN
+ #ifdef HAVE_LCHOWN
+ 		if (lchown(filename, uid, gid) == -1)
+ 		{
+@@ -64,15 +65,6 @@ tar_set_file_perms(TAR *t, char *realname)
+ 			return -1;
+ 		}
+ 
+-	/* change access/modification time */
+-	if (!TH_ISSYM(t) && utime(filename, &ut) == -1)
+-	{
+-#ifdef DEBUG
+-		perror("utime()");
+-#endif
+-		return -1;
+-	}
+-
+ 	/* change permissions */
+ 	if (!TH_ISSYM(t) && chmod(filename, mode) == -1)
+ 	{
