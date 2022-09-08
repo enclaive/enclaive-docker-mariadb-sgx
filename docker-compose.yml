@@ -5,6 +5,7 @@ services:
   demo:
     image: demo/mariadb:latest
     build: .
+    container_name: demo
     volumes:
       - "./data.sql:/data.sql"
       - "data:/vanilla/"
@@ -14,15 +15,17 @@ services:
   vanilla:
     image: demo/mariadb:latest
     build: .
+    container_name: mariadb
     volumes:
       - "data:/var/lib/mysql/"
 
   sgx:
     image: enclaive/mariadb-sgx:latest
+    container_name: mariadb-sgx
     devices:
       - "/dev/sgx/enclave:/dev/sgx/enclave"
-      - "/dev/sgx/enclave:/dev/sgx_enclave"
-      - "/dev/sgx_provision:/dev/sgx_provision"
+      - "/dev/sgx/enclave:/dev/sgx_enclave"     # azure compatibility
+      - "/dev/sgx_provision:/dev/sgx_provision"   
     volumes:
       - "sgx-data:/data/"
 
