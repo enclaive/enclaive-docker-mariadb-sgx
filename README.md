@@ -73,7 +73,7 @@ strings /sgx/demo/users.ibd
 strings /vanilla/demo/users.ibd
 ```
 
-Alternatively compare a `grep'
+Alternatively compare a `grep`
 
 ```bash
 grep -Ri testUsername /vanilla/ /sgx/
