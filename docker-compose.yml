@@ -2,15 +2,30 @@ version: '2'
 
 services:
 
-  mariadb:
-    image: enclaive/mariadb-sgx:latest
+  demo:
+    image: demo/mariadb:latest
     build: .
+    volumes:
+      - "./data.sql:/data.sql"
+      - "data:/vanilla/"
+      - "sgx-data:/sgx/"
+    entrypoint: tail -f /dev/null
+
+  vanilla:
+    image: demo/mariadb:latest
+    build: .
+    volumes:
+      - "data:/var/lib/mysql/"
+
+  sgx:
+    image: enclaive/mariadb-sgx:latest
     devices:
       - "/dev/sgx/enclave:/dev/sgx/enclave"
       - "/dev/sgx/enclave:/dev/sgx_enclave"
       - "/dev/sgx_provision:/dev/sgx_provision"
     volumes:
-      - type: volume
-        target: /data
-    ports:
-      - "3306:3306"
+      - "sgx-data:/data/"
+
+volumes:
+  data:
+  sgx-data:
