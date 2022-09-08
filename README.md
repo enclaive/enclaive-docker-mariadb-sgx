@@ -1,6 +1,6 @@
 # MariaDB-SGX Demonstration
 
-The goal is to show the mariadb-sgx database remains encrypted while in use (recall, encryption at rest decrypts the data collection in memory to perform the database operation). To this end, `data.sql` creates a `username:password` table. The rationality is that the data is encrypted at any moment in time, while vanilla mariadb reveals the data. Note, there is no need for data-in-rest encryption and the burden of key updates/management. Encryption is handled on the fly by 
+The goal is to show the mariadb-sgx database remains encrypted while in use (recall, encryption at rest decrypts the data collection in memory to perform the database operation). To this end, `insert.sql` creates a `username:password` table. The rationality is that the data is encrypted at any moment in time, while vanilla mariadb reveals the data. Note, there is no need for data-in-rest encryption and the burden of key updates/management. Encryption is handled on the fly by 
 
 ## Prerequisites
 
@@ -10,9 +10,9 @@ sudo add-apt-repository ppa:ondrej/php
 suod apt update
 sudo apt install php8.1 php8.1-mbstring
 ```
-and create a password list
+and generate SQL queries `insert.sql` to insert `user:pass` into a demo database
 ```bash
-php generate_data.php > data.sql
+php generate_data.php > insert.sql
 ```
 
 ## Building and Running
@@ -39,11 +39,13 @@ docker exec -it demo bash     # shell 2
 Insert data and shutdown the server to flush the data from the InnoDB binlog to the storage file
 
 ```bash
-mariadb --host mariadb --password=enclaive < data.sql
+# shell 1
+mariadb --host mariadb --password=enclaive < insert.sql
 ```
 and print the flushed file content
 
 ```bash
+# shell 2
 xxd -c 32 /sgx/demo/users.ibd | grep -i testUsername
 ```
 
@@ -52,11 +54,13 @@ xxd -c 32 /sgx/demo/users.ibd | grep -i testUsername
 Insert data and shutdown the server to flush the data from the InnoDB binlog to the storage file
 
 ```bash
-mariadb --host mariadb-sgx --password=enclaive < data.sql
+# shell 1
+mariadb --host mariadb-sgx --password=enclaive < insert.sql
 ```
 and print the flushed file content
 
 ```bash
+# shell 2
 xxd -c 32 /sgx/demo/users.ibd | grep -i testUsername
 ```
 
