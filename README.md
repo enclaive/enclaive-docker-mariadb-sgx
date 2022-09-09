@@ -13,7 +13,7 @@
     </table>
 
 
-  <h2 align="center">SGX-ready MariaDB: SQL Database memory-encrypted while in use</h2>
+  <h2 align="center">SGX-ready MariaDB: Data-in-Use encrypted SQL Database</h2>
 
   <p align="center">
     <h3>packed by <a href="https://enclaive.io">enclaive</a></h3>
@@ -23,13 +23,23 @@
     <a href="#contributing">Contribute</a>
     ·
     <a href="https://github.com/enclaive/enclaive-docker-mariadb-sgx/issues">Report Bug</a>
-    ·
+    ·     
     <a href="https://github.com/enclaive/enclaive-docker-mariadb-sgx/issues">Request Feature</a>
   </p>
+  
+  <table style="width:100%">
+<tr>
+     <td align="center" width:"25%">
+         <a href="https://www.youtube.com/watch?v=Y1E7m9aUoE"><img  src="https://img.youtube.com/vi/lY1E7m9aUoE/0.jpg"</img></a>
+        <br>Demo: MariaDB-SGX Data-in-Use encryption (<a href="https://github.com/enclaive/enclaive-docker-mariadb-sgx/tree/demo">code</a>)</td> 
+     </td>
+ </tr>
+ </table>
+ 
 </div>
 
-<!-- TL;TD --> 
-## TL;DR
+<!-- TL;TR --> 
+## TL;TR
 
 ```sh
 docker pull enclaive/mariadb-sgx
