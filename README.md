@@ -38,8 +38,8 @@
  
 </div>
 
-<!-- TL;TR --> 
-## TL;TR
+<!-- TL;DR --> 
+## TL;DR
 
 ```sh
 docker pull enclaive/mariadb-sgx
