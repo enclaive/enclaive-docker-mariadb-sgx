@@ -30,7 +30,7 @@
   <table style="width:100%">
 <tr>
      <td align="center" width:"25%">
-         <a href="https://www.youtube.com/watch?v=Y1E7m9aUoE"><img  src="https://img.youtube.com/vi/lY1E7m9aUoE/0.jpg"</img></a>
+         <a href="https://youtu.be/lY1E7m9aUoE"><img  src="https://img.youtube.com/vi/lY1E7m9aUoE/0.jpg"</img></a>
         <br>Demo: MariaDB-SGX Data-in-Use encryption (<a href="https://github.com/enclaive/enclaive-docker-mariadb-sgx/tree/demo">code</a>)</td> 
      </td>
  </tr>
