@@ -1,13 +1,19 @@
+libos.entrypoint = "/premain/premain-libos"
+
 loader.entrypoint = "file:{{ gramine.libos }}"
 
-libos.entrypoint = "/app/launcher"
-loader.argv_src_file = "file:/app/argv"
+loader.argv0_override = "/app/launcher"
 
 loader.log_level = "error"
 #loader.log_file = "log.txt"
 
 loader.env.LD_LIBRARY_PATH = "/lib:{{ arch_libdir }}"
 loader.env.MALLOC_ARENA_MAX = "1"
+
+loader.env.EDG_MARBLE_TYPE = { passthrough = true }
+loader.env.EDG_MARBLE_COORDINATOR_ADDR = { passthrough = true }
+loader.env.EDG_MARBLE_UUID_FILE = { passthrough = true }
+loader.env.EDG_MARBLE_DNS_NAMES = { passthrough = true }
 
 fs.mounts = [
     { path = "/tmp",              uri = "file:/tmp",        type = "tmpfs" },
@@ -17,15 +23,21 @@ fs.mounts = [
     { path = "/lib",              uri = "file:{{ gramine.runtimedir() }}" },
     { path = "{{ arch_libdir }}", uri = "file:{{ arch_libdir }}" },
     { path = "/app",              uri = "file:/app" },
-    { path = "/var/lib/mysql",    uri = "file:/data", type = "encrypted", key_name = "default" },
+
+    #premain libos
+    { path = "/premain",          uri = "file:/premain" },
+
+    #volumes
+    { path = "/var/lib/mysql",    uri = "file:/data", type = "encrypted", key_name = "mariadbd_data" },
+    { path = "/secrets/", uri = "file:/secrets", type = "encrypted", key_name = "mariadbd_secrets" },
 ]
-fs.insecure__keys.default = "ffeeddccbbaa99887766554433221100"
 
 sgx.thread_num = 32
 sgx.enclave_size = "1G"
 
 sgx.debug = false
-sgx.isvprodid = 1
+sgx.remote_attestation = "dcap"
+sgx.isvprodid = 13
 sgx.isvsvn    = 1
 
 sgx.trusted_files = [
@@ -33,10 +45,8 @@ sgx.trusted_files = [
     "file:{{ gramine.runtimedir() }}/",
     "file:{{ arch_libdir }}/",
 
-    "file:/app/argv",
     "file:/app/launcher",
     "file:/app/mariadbd",
-    "file:/app/init.sql",
     "file:/app/mysql.tar.gz",
 
     "file:/etc/my.cnf",
@@ -49,7 +59,17 @@ sgx.trusted_files = [
     "file:/etc/localtime",
     "file:/etc/timezone",
 
-#    "file:/etc/host.conf",
-#    "file:/etc/resolv.conf",
-#    "file:/etc/hosts",
+    "file:/premain/premain-libos",
+]
+
+
+sgx.allowed_files = [
+  "file:/etc/ethers",
+  "file:/etc/hosts",
+  "file:/etc/localtime",
+  "file:/etc/resolv.conf",
+  "file:/etc/host.conf",
+
+  # MARBLERUN: allow the marble's uuid file
+  "file:uuid"
 ]

@@ -1,0 +1,2 @@
+FROM marcely0/pcc-mariadb-demo
+LABEL pcc.mrenclave=48ff585e4427bba83dee5a80906dcf54eca07b074dd97b3a8afa72507fe0c562 pcc.mrsigner=986f39d1bfa2073778284070f5c1fe46d65fe57d76a4fb53cb65758db292fc7f
